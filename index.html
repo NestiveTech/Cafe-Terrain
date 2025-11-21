@@ -151,8 +151,6 @@
     }
 
     .card:nth-child(1) { animation-delay: 0.2s; }
-    .card:nth-child(2) { animation-delay: 0.3s; }
-    .card:nth-child(3) { animation-delay: 0.4s; }
 
     @keyframes fadeInUp {
       from {
@@ -262,20 +260,32 @@
     .social-icon {
       width: 50px;
       height: 50px;
-      background: var(--terracotta);
+      background: white;
       color: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
       text-decoration: none;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+      overflow: hidden;
+      padding: 8px;
+    }
+
+    .social-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .social-icon:hover {
-      background: var(--terracotta-dark);
-      transform: scale(1.1) rotate(5deg);
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3);
+    }
+
+    .social-icon:active {
+      transform: scale(0.95);
     }
 
     /* Responsive */
@@ -368,22 +378,6 @@
         <p>Browse our delicious selection of coffee, food, and desserts</p>
         <span class="badge">Customer Portal</span>
       </a>
-
-      <!-- Barista Admin Card -->
-      <a href="admin-barista.html" class="card">
-        <div class="card-icon">☕</div>
-        <h2>Barista Panel</h2>
-        <p>Manage coffee and beverage menu items</p>
-        <span class="badge">Staff Only</span>
-      </a>
-
-      <!-- Kitchen Admin Card -->
-      <a href="admin-kitchen.html" class="card">
-        <div class="card-icon">👨‍🍳</div>
-        <h2>Kitchen Panel</h2>
-        <p>Manage food items and kitchen operations</p>
-        <span class="badge">Staff Only</span>
-      </a>
     </div>
 
     <!-- Footer -->
@@ -391,9 +385,12 @@
       <h3>Welcome to Cafe Terrain</h3>
       <p>Crafting moments, one cup at a time</p>
       <div class="social-links">
-        <a href="#" class="social-icon" title="Facebook">📘</a>
-        <a href="#" class="social-icon" title="Instagram">📷</a>
-        <a href="#" class="social-icon" title="Twitter">🐦</a>
+        <a href="https://www.facebook.com/share/1BcKeFEGwn/" class="social-icon" title="Facebook" target="_blank" rel="noopener noreferrer">
+          <img src="assets/fb-removebg-preview.png" alt="Facebook">
+        </a>
+        <a href="https://www.instagram.com/cafe.terrain?igsh=ZGl5bm1rY2hmMTMw" class="social-icon" title="Instagram" target="_blank" rel="noopener noreferrer">
+          <img src="assets/image-removebg-preview.png" alt="Instagram">
+        </a>
       </div>
     </div>
   </div>
@@ -416,19 +413,21 @@
       });
     });
 
-    // Parallax effect on mouse move
-    document.addEventListener('mousemove', (e) => {
-      const cards = document.querySelectorAll('.card');
-      const mouseX = e.clientX / window.innerWidth;
-      const mouseY = e.clientY / window.innerHeight;
+    // Parallax effect on mouse move (disabled on mobile)
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', (e) => {
+        const cards = document.querySelectorAll('.card');
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
 
-      cards.forEach((card, index) => {
-        const speed = (index + 1) * 2;
-        const x = (mouseX - 0.5) * speed;
-        const y = (mouseY - 0.5) * speed;
-        card.style.transform = `translate(${x}px, ${y}px)`;
+        cards.forEach((card, index) => {
+          const speed = (index + 1) * 2;
+          const x = (mouseX - 0.5) * speed;
+          const y = (mouseY - 0.5) * speed;
+          card.style.transform = `translate(${x}px, ${y}px)`;
+        });
       });
-    });
+    }
   </script>
 </body>
 </html>

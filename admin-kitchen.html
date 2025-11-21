@@ -472,17 +472,18 @@
             </span>
           </td>
           <td class="actions">
-            <button class="btn btn-warning" onclick="editItem(${index})">✏️ Edit</button>
+            
             <button class="btn ${item.status === '✅' ? 'btn-warning' : 'btn-success'}" 
                     onclick="toggleStatus(${index})">
               ${item.status === '✅' ? '🔒 Disable' : '✓ Enable'}
             </button>
-            <button class="btn btn-danger" onclick="deleteItem(${index})">🗑️ Delete</button>
+            
           </td>
         `;
       });
     }
-
+    // <button class="btn btn-warning" onclick="editItem(${index})">✏️ Edit</button>
+// <button class="btn btn-danger" onclick="deleteItem(${index})">🗑️ Delete</button>
     document.getElementById('searchInput').addEventListener('input', (e) => {
       const searchTerm = e.target.value.toLowerCase();
       const filtered = menuData.filter(item => 
