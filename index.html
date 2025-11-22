@@ -3,233 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cafe Terrain - Welcome</title>
+  <title>Cafe Terrain - Digital Menu System</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Raleway:wght@300;400;500;600;700&display=swap');
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    :root {
-      --primary-color: #8B4513;
-      --terracotta: #E2725B;
-      --terracotta-dark: #C3592B;
-      --terracotta-light: #F0E0D0;
-      --text-color: #5D4037;
-      --light-bg: #FFF8F0;
-    }
-
-    body {
-      font-family: 'Georgia', serif;
-      background: linear-gradient(135deg, #FFF8F0 0%, #F0E0D0 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 1200px;
-      width: 100%;
-    }
-
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      margin-bottom: 60px;
-      animation: fadeInDown 0.8s ease-out;
-    }
-
-    @keyframes fadeInDown {
+    @keyframes slideInLeft {
       from {
         opacity: 0;
-        transform: translateY(-30px);
+        transform: translateX(-50px);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
       }
     }
 
-    .logo-container {
-      margin-bottom: 30px;
-      animation: scaleIn 0.8s ease-out 0.2s both;
-    }
-
-    @keyframes scaleIn {
+    @keyframes slideInRight {
       from {
         opacity: 0;
-        transform: scale(0.8);
+        transform: translateX(50px);
       }
       to {
         opacity: 1;
-        transform: scale(1);
+        transform: translateX(0);
       }
-    }
-
-    .logo {
-      width: 150px;
-      height: 150px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 30px rgba(139, 69, 19, 0.3);
-      border: 5px solid var(--terracotta);
-      overflow: hidden;
-      padding: 8px;
-      position: relative;
-    }
-
-    .logo::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%);
-      border-radius: 50%;
-      z-index: -1;
-      animation: rotate 3s linear infinite;
-    }
-
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero h1 {
-      font-size: 4rem;
-      color: var(--primary-color);
-      margin-bottom: 15px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-      font-weight: 700;
-    }
-
-    .hero p {
-      font-size: 1.5rem;
-      color: var(--text-color);
-      opacity: 0.8;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    /* Cards Grid */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      margin-bottom: 40px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 40px 30px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(139, 69, 19, 0.15);
-      transition: all 0.4s ease;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      position: relative;
-      overflow: hidden;
-      animation: fadeInUp 0.8s ease-out both;
-    }
-
-    .card:nth-child(1) { animation-delay: 0.2s; }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(139, 69, 19, 0.25);
-    }
-
-    .card:hover::before {
-      opacity: 0.1;
-    }
-
-    .card-icon {
-      font-size: 4rem;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .card h2 {
-      font-size: 2rem;
-      color: var(--primary-color);
-      margin-bottom: 15px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .card p {
-      font-size: 1.1rem;
-      color: var(--text-color);
-      opacity: 0.8;
-      line-height: 1.6;
-      font-family: 'Segoe UI', sans-serif;
-      position: relative;
-      z-index: 1;
-    }
-
-    .card .badge {
-      display: inline-block;
-      background: var(--terracotta-light);
-      color: var(--terracotta-dark);
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-top: 15px;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 30px 20px;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      animation: fadeIn 1s ease-out 0.6s both;
     }
 
     @keyframes fadeIn {
@@ -237,197 +40,504 @@
       to { opacity: 1; }
     }
 
-    .footer h3 {
-      font-size: 1.8rem;
-      color: var(--primary-color);
-      margin-bottom: 10px;
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
     }
 
-    .footer p {
-      font-size: 1.1rem;
-      color: var(--text-color);
-      opacity: 0.8;
-      font-family: 'Segoe UI', sans-serif;
+    body {
+      font-family: 'Raleway', sans-serif;
+      background: linear-gradient(to bottom, #fdfbf7 0%, #f5f1e8 100%);
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      color: #3d3427;
     }
 
-    .social-links {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .social-icon {
-      width: 50px;
-      height: 50px;
-      background: white;
-      color: white;
-      border-radius: 50%;
+    .hero-section {
+      position: relative;
+      min-height: 70vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
-      overflow: hidden;
-      padding: 8px;
+      background: 
+        linear-gradient(135deg, rgba(184, 134, 11, 0.03) 0%, transparent 50%),
+        url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(184,134,11,0.08)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+      border-bottom: 3px solid #b8860b;
+      animation: fadeIn 1s ease;
     }
 
-    .social-icon img {
+    .hero-content {
+      text-align: center;
+      max-width: 900px;
+      padding: 60px 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-container {
+      margin-bottom: 40px;
+      animation: fadeIn 1.2s ease;
+    }
+
+    .logo {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto;
+      border-radius: 10px;
+      border: 4px solid #b8860b;
+      padding: 8px;
+      background: linear-gradient(135deg, #ffffff 0%, #faf8f3 100%);
+      box-shadow: 
+        0 0 0 2px rgba(184, 134, 11, 0.2),
+        0 20px 60px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease;
+    }
+
+    .logo::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      background: linear-gradient(90deg, transparent, rgba(184, 134, 11, 0.2), transparent);
+      animation: shimmer 3s infinite;
     }
 
-    .social-icon:hover {
-      transform: scale(1.15) rotate(5deg);
-      box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3);
+    .logo:hover {
+      transform: scale(1.05);
+      box-shadow: 
+        0 0 0 2px rgba(184, 134, 11, 0.4),
+        0 25px 70px rgba(184, 134, 11, 0.25);
     }
 
-    .social-icon:active {
-      transform: scale(0.95);
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
     }
 
-    /* Responsive */
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 5rem;
+      font-weight: 900;
+      color: #b8860b;
+      margin-bottom: 20px;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 4px rgba(184, 134, 11, 0.1);
+      animation: slideInLeft 1s ease 0.3s both;
+    }
+
+    .hero-subtitle {
+      font-size: 1.4rem;
+      color: #8b7355;
+      font-weight: 400;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      animation: slideInRight 1s ease 0.5s both;
+    }
+
+    .hero-divider {
+      width: 200px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #b8860b, transparent);
+      margin: 30px auto;
+      position: relative;
+    }
+
+    .hero-divider::before {
+      content: '◆';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: #b8860b;
+      font-size: 1.2rem;
+      background: #fdfbf7;
+      padding: 0 15px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+
+    .section {
+      margin-bottom: 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 3rem;
+      color: #b8860b;
+      margin-bottom: 20px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .section-line {
+      width: 150px;
+      height: 3px;
+      background: #b8860b;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .section-line::before,
+    .section-line::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #b8860b;
+      top: -4.5px;
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    .section-line::before { left: -20px; }
+    .section-line::after { right: -20px; }
+
+    .featured-card {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 3px solid #b8860b;
+      padding: 60px 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease;
+      animation: fadeIn 1s ease;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .featured-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #b8860b, #d4af37, #b8860b);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .featured-card:hover::before {
+      opacity: 1;
+    }
+
+    .featured-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 30px 80px rgba(184, 134, 11, 0.25);
+    }
+
+    .featured-icon {
+      font-size: 5rem;
+      margin-bottom: 30px;
+      filter: drop-shadow(0 4px 10px rgba(184, 134, 11, 0.2));
+    }
+
+    .featured-card h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      color: #b8860b;
+      margin-bottom: 20px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .featured-card p {
+      font-size: 1.1rem;
+      color: #5d5347;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .featured-badge {
+      display: inline-block;
+      padding: 12px 30px;
+      background: transparent;
+      border: 2px solid #b8860b;
+      color: #b8860b;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    .featured-card:hover .featured-badge {
+      background: #b8860b;
+      color: #ffffff;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+    }
+
+    .staff-card {
+      background: #ffffff;
+      border: 2px solid rgba(184, 134, 11, 0.3);
+      padding: 50px 40px;
+      text-align: center;
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.8s ease;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    .staff-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(184, 134, 11, 0.08), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .staff-card:hover::before {
+      left: 100%;
+    }
+
+    .staff-card:hover {
+      border-color: #b8860b;
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(184, 134, 11, 0.2);
+    }
+
+    .staff-icon {
+      font-size: 4rem;
+      margin-bottom: 25px;
+      transition: transform 0.3s ease;
+      filter: grayscale(0.2);
+    }
+
+    .staff-card:hover .staff-icon {
+      transform: scale(1.15);
+    }
+
+    .staff-card h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: #3d3427;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .staff-card p {
+      font-size: 0.95rem;
+      color: #6b5d4f;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .staff-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      background: rgba(184, 134, 11, 0.1);
+      border: 1px solid #b8860b;
+      color: #b8860b;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    .staff-card:hover .staff-badge {
+      background: #b8860b;
+      color: #ffffff;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 60px 40px 40px;
+      border-top: 2px solid #b8860b;
+      margin-top: 80px;
+      position: relative;
+      background: #fdfbf7;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: #b8860b;
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: #b8860b;
+      margin-bottom: 15px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .footer p {
+      color: #8b7355;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      margin: 8px 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.5rem;
+      .hero-title {
+        font-size: 3rem;
+        letter-spacing: 4px;
       }
 
-      .hero p {
-        font-size: 1.2rem;
+      .hero-subtitle {
+        font-size: 1rem;
+        letter-spacing: 3px;
       }
 
       .logo {
-        width: 120px;
-        height: 120px;
+        width: 130px;
+        height: 130px;
+      }
+
+      .container {
+        padding: 60px 25px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .featured-card {
+        padding: 40px 30px;
+      }
+
+      .featured-card h2 {
+        font-size: 1.8rem;
       }
 
       .cards-grid {
         grid-template-columns: 1fr;
+        gap: 30px;
       }
 
-      .card {
-        padding: 30px 20px;
-      }
-
-      .card-icon {
-        font-size: 3rem;
-      }
-
-      .card h2 {
-        font-size: 1.5rem;
+      .staff-card {
+        padding: 40px 30px;
       }
     }
 
-    /* Loading Animation */
-    .loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #FFF8F0 0%, #F0E0D0 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease;
-    }
-
-    .loading-overlay.hide {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .coffee-loader {
-      font-size: 4rem;
-      animation: bounce 1s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
+    @media (min-width: 1200px) {
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Loading Screen -->
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="coffee-loader">☕</div>
-  </div>
-
-  <div class="container">
-    <!-- Hero Section -->
-    <div class="hero">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
       <div class="logo-container">
         <div class="logo">
-          <img src="assets/IMG-20251104-WA0038.jpg" alt="Cafe Terrain Logo">
+          <img src="assets/IMG-20251104-WA0038.jpg" alt="Cafe Terrain">
         </div>
       </div>
-      <h1>Cafe Terrain</h1>
-      <p>Where Every Sip Tells a Story</p>
+      <h1 class="hero-title">Cafe Terrain</h1>
+      <div class="hero-divider"></div>
+      <p class="hero-subtitle">Digital Menu System</p>
     </div>
+  </section>
 
-    <!-- Cards Grid -->
-    <div class="cards-grid">
-      <!-- Customer Menu Card -->
-      <a href="menu.html" class="card">
-        <div class="card-icon">🍽️</div>
+  <div class="container">
+    <!-- Customer Section -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Guest Experience</h2>
+        <div class="section-line"></div>
+      </div>
+      
+      <a href="menu.html" class="featured-card">
+        <div class="featured-icon">📒</div>
         <h2>View Menu</h2>
-        <p>Browse our delicious selection of coffee, food, and desserts</p>
-        <span class="badge">Customer Portal</span>
+        <p>Explore our carefully curated collection of culinary delights. Browse complete offerings with real-time availability and detailed descriptions.</p>
+        <span class="featured-badge">Access Menu</span>
       </a>
-    </div>
+    </section>
 
-    <!-- Footer -->
-    <div class="footer">
-      <h3>Welcome to Cafe Terrain</h3>
-      <p>Crafting moments, one cup at a time</p>
-      <div class="social-links">
-        <a href="https://www.facebook.com/share/1BcKeFEGwn/" class="social-icon" title="Facebook" target="_blank" rel="noopener noreferrer">
-          <img src="assets/fb-removebg-preview.png" alt="Facebook">
+    <!-- Staff Section -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Staff Portal</h2>
+        <div class="section-line"></div>
+      </div>
+      
+      <div class="cards-grid">
+        <a href="admin-manager.html" class="staff-card">
+          <div class="staff-icon">👔</div>
+          <h3>Manager</h3>
+          <p>Complete dashboard access with analytics, reporting, and comprehensive menu management capabilities.</p>
+          <span class="staff-badge">Management</span>
         </a>
-        <a href="https://www.instagram.com/cafe.terrain?igsh=ZGl5bm1rY2hmMTMw" class="social-icon" title="Instagram" target="_blank" rel="noopener noreferrer">
-          <img src="assets/image-removebg-preview.png" alt="Instagram">
+
+        <a href="admin-manager.html" class="staff-card">
+          <div class="staff-icon">👨‍💼</div>
+          <h3>Assistant Manager</h3>
+          <p>Full operational control with advanced menu management and administrative privileges.</p>
+          <span class="staff-badge">Management</span>
+        </a>
+
+        <a href="admin-barista.html" class="staff-card">
+          <div class="staff-icon">☕</div>
+          <h3>Barista</h3>
+          <p>Specialized access for managing coffee selections, beverages, and barista operations.</p>
+          <span class="staff-badge">Barista Staff</span>
+        </a>
+
+        <a href="admin-kitchen.html" class="staff-card">
+          <div class="staff-icon">👨‍🍳</div>
+          <h3>Kitchen</h3>
+          <p>Culinary operations management for food items, inventory, and kitchen workflow.</p>
+          <span class="staff-badge">Kitchen Staff</span>
         </a>
       </div>
-    </div>
+    </section>
   </div>
 
-  <script>
-    // Hide loading screen after page loads
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('loadingOverlay').classList.add('hide');
-      }, 800);
-    });
-
-    // Add click animation
-    document.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        card.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-          card.style.transform = '';
-        }, 200);
-      });
-    });
-
-    // Parallax effect on mouse move (disabled on mobile)
-    if (window.innerWidth > 768) {
-      document.addEventListener('mousemove', (e) => {
-        const cards = document.querySelectorAll('.card');
-        const mouseX = e.clientX / window.innerWidth;
-        const mouseY = e.clientY / window.innerHeight;
-
-        cards.forEach((card, index) => {
-          const speed = (index + 1) * 2;
-          const x = (mouseX - 0.5) * speed;
-          const y = (mouseY - 0.5) * speed;
-          card.style.transform = `translate(${x}px, ${y}px)`;
-        });
-      });
-    }
-  </script>
+  <footer class="footer">
+    <div class="footer-logo">Cafe Terrain</div>
+    <p>Digital Menu System</p>
+    <p>Powered by Google Apps Script</p>
+    <p style="margin-top: 20px;">© 2025 All Rights Reserved</p>
+  </footer>
 </body>
 </html>
