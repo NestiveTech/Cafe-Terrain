@@ -474,6 +474,7 @@
       position: relative;
       overflow: hidden;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
     }
 
     .back-btn::after {
@@ -593,7 +594,73 @@
       color: #ffffff;
       box-shadow: 0 6px 24px rgba(212, 175, 55, 0.25);
     }
+/* Google Review Section */
+    .review-section {
+      background: white;
+      border-radius: 12px;
+      padding: 30px 20px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      border: 2px solid var(--border-color);
+    }
 
+    .review-title {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      font-family: 'Georgia', serif;
+      font-weight: 700;
+    }
+
+    .review-subtitle {
+      color: #8D6E63;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .qr-code-box {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      border: 3px solid var(--terracotta);
+      box-shadow: 0 4px 12px rgba(226, 114, 91, 0.2);
+      display: inline-block;
+    }
+
+    .qr-code-img {
+      width: 180px;
+      height: 180px;
+      display: block;
+    }
+
+    .review-text {
+      font-size: 1rem;
+      color: var(--text-color);
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .review-instruction {
+      font-size: 0.9rem;
+      color: #8D6E63;
+      margin-top: 8px;
+    }
+
+    .stars {
+      font-size: 1.8rem;
+      color: #FFD700;
+      letter-spacing: 3px;
+      margin: 10px 0;
+    }
     @media (max-width: 768px) {
       .container {
         padding: 40px 20px;
@@ -639,6 +706,12 @@
       .category-icon {
         font-size: 2.3rem;
       }
+
+      .back-btn {
+        padding: 14px 30px;
+        font-size: 0.85rem;
+        margin: 10px 5px;
+      }
     }
   </style>
 </head>
@@ -660,6 +733,18 @@
       <p>Fine Dining Experience</p>
     </header>
 
+    <!-- Sort Buttons -->
+    <div style="text-align: center; margin-bottom: 30px;">
+      <button onclick="sortMenu('asc')" class="back-btn" style="margin: 10px;">
+        <span>↑</span>
+        <span>Price: Low to High</span>
+      </button>
+      <button onclick="sortMenu('desc')" class="back-btn" style="margin: 10px;">
+        <span>↓</span>
+        <span>Price: High to Low</span>
+      </button>
+    </div>
+
     <div class="loading" id="loading">
       <div class="spinner"></div>
       <p>Preparing Menu</p>
@@ -673,7 +758,21 @@
         <span>Return Home</span>
       </a>
     </div>
-
+<div class="review-section">
+      <h2 class="review-title">Love Our Food? Share Your Experience!</h2>
+      <p class="review-subtitle">Scan the QR code to leave us a Google review</p>
+      
+      <div class="qr-container">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <div class="qr-code-box">
+          <img src="assets/brown_qr.png" 
+               alt="Google Review QR Code" 
+               class="qr-code-img">
+        </div>
+        <p class="review-text">Scan & Review</p>
+        <p class="review-instruction">Open your camera app and point it at the QR code</p>
+      </div>
+    </div>
     <footer class="footer">
       <strong>Cafe Terrain</strong>
       <p>© 2025 All Rights Reserved</p>
@@ -693,13 +792,17 @@
       'Snacks': '🍿'
     };
 
+    // Store loaded menu data globally for sorting
+    let currentMenuData = null;
+
     async function loadMenu() {
       try {
         const response = await fetch(SCRIPT_URL);
         const result = await response.json();
 
         if (result.success && result.data) {
-          renderMenu(result.data);
+          currentMenuData = result.data;
+          renderMenu(currentMenuData);
         } else {
           showError('Failed to load menu');
         }
@@ -771,6 +874,32 @@
           </button>
         </div>
       `;
+    }
+
+    // Sort menu by price
+    function sortMenu(order) {
+      if (!currentMenuData) return;
+
+      const sortedData = {};
+
+      Object.keys(currentMenuData).forEach(category => {
+        const items = [...currentMenuData[category].items];
+
+        items.sort((a, b) => {
+          const priceA = parseFloat(a.price);
+          const priceB = parseFloat(b.price);
+
+          if (order === 'asc') {
+            return priceA - priceB;
+          } else {
+            return priceB - priceA;
+          }
+        });
+
+        sortedData[category] = { items: items };
+      });
+
+      renderMenu(sortedData);
     }
 
     document.addEventListener('DOMContentLoaded', loadMenu);
