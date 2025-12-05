@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Barista Dashboard - Cafe Terrain</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #E2725B 0%, #8B4513 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      border: 3px solid #d4af37;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: #E2725B;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #8b7355;
+      font-size: 1.1rem;
+    }
+
+    /* AUTH SECTION */
+    .auth-section {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 500px;
+      margin: 50px auto;
+      text-align: center;
+      border: 3px solid #d4af37;
+    }
+
+    .auth-section h2 {
+      font-family: 'Playfair Display', serif;
+      color: #E2725B;
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2c2c2c;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #d4af37;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #E2725B;
+      box-shadow: 0 0 0 3px rgba(226, 114, 91, 0.1);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #E2725B 0%, #8B4513 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 20px;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(226, 114, 91, 0.4);
+    }
+
+    .login-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-message {
+      background: #fee;
+      color: #c33;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid #c33;
+    }
+
+    /* DASHBOARD */
+    .dashboard-container {
+      display: none;
+    }
+
+    .dashboard-container.active {
+      display: block;
+    }
+
+    .controls {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+      gap: 15px;
+      border: 2px solid #d4af37;
+    }
+
+    .user-info {
+      color: #2c2c2c;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .user-email {
+      color: #E2725B;
+      font-weight: 700;
+    }
+
+    .controls-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .refresh-btn, .logout-btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+
+    .refresh-btn {
+      background: linear-gradient(135deg, #E2725B 0%, #8B4513 100%);
+      color: white;
+    }
+
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(226, 114, 91, 0.4);
+    }
+
+    .logout-btn {
+      background: #8b7355;
+      color: white;
+    }
+
+    .logout-btn:hover {
+      background: #6b5945;
+      transform: translateY(-2px);
+    }
+
+    /* TAB NAVIGATION */
+    .tab-navigation {
+      background: white;
+      padding: 15px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 10px;
+      border: 2px solid #d4af37;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 15px;
+      background: white;
+      border: 2px solid #E2725B;
+      color: #E2725B;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+
+    .tab-btn:hover {
+      background: rgba(226, 114, 91, 0.1);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #E2725B 0%, #8B4513 100%);
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* STATS */
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+      border: 2px solid #d4af37;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: #8b7355;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .stat-pending { color: #3498db; }
+    .stat-preparing { color: #E2725B; }
+    .stat-ready { color: #27ae60; }
+
+    /* ORDERS GRID */
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+    }
+
+    .order-card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+      border-left: 5px solid #E2725B;
+      border: 2px solid #d4af37;
+    }
+
+    .order-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .order-id {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #E2725B;
+    }
+
+    .table-number {
+      background: linear-gradient(135deg, #E2725B 0%, #8B4513 100%);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .order-info {
+      margin-bottom: 20px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .info-label {
+      color: #8b7355;
+      font-weight: 500;
+    }
+
+    .info-value {
+      color: #2c2c2c;
+      font-weight: 600;
+    }
+
+    .items-section {
+      background: #fff5f3;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .items-section h4 {
+      color: #E2725B;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .items-list {
+      color: #2c2c2c;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      white-space: pre-line;
+    }
+
+    .notes-section {
+      background: #fff9e6;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 3px solid #d4af37;
+    }
+
+    .notes-section h4 {
+      color: #d4af37;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .notes-text {
+      color: #8b7355;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    .current-status {
+      text-align: center;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .current-status.pending {
+      background: #e3f2fd;
+      color: #1976d2;
+      border: 2px solid #1976d2;
+    }
+
+    .current-status.preparing {
+      background: rgba(226, 114, 91, 0.1);
+      color: #E2725B;
+      border: 2px solid #E2725B;
+    }
+
+    .current-status.ready {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: 2px solid #2e7d32;
+    }
+
+    .status-section {
+      display: flex;
+      gap: 10px;
+    }
+
+    .status-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .status-btn.status-pending {
+      background: #3498db;
+      color: white;
+    }
+
+    .status-btn.status-pending:hover:not(:disabled) {
+      background: #2980b9;
+    }
+
+    .status-btn.status-preparing {
+      background: #E2725B;
+      color: white;
+    }
+
+    .status-btn.status-preparing:hover:not(:disabled) {
+      background: #C3592B;
+    }
+
+    .status-btn.status-ready {
+      background: #27ae60;
+      color: white;
+    }
+
+    .status-btn.status-ready:hover:not(:disabled) {
+      background: #229954;
+    }
+
+    .status-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* MENU ITEMS TABLE */
+    .menu-items-container {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border: 2px solid #d4af37;
+    }
+
+    .menu-items-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .menu-items-table thead {
+      background: linear-gradient(135deg, #E2725B 0%, #8B4513 100%);
+      color: white;
+    }
+
+    .menu-items-table th {
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .menu-items-table td {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .menu-items-table tbody tr:hover {
+      background: #fff5f3;
+    }
+
+    .availability-toggle {
+      padding: 8px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .availability-toggle.available {
+      background: #27ae60;
+      color: white;
+    }
+
+    .availability-toggle.unavailable {
+      background: #8b7355;
+      color: white;
+    }
+
+    .availability-toggle:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* LOADING */
+    .loading {
+      text-align: center;
+      padding: 100px 20px;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 5px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s ease-in-out infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .empty-state {
+      background: white;
+      padding: 60px 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border: 2px solid #d4af37;
+    }
+
+    .empty-state h3 {
+      font-family: 'Playfair Display', serif;
+      color: #E2725B;
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .empty-state p {
+      color: #8b7355;
+      font-size: 1.1rem;
+    }
+
+    /* FILTER SECTION */
+    .filter-section {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      border: 2px solid #d4af37;
+    }
+
+    .filter-btn {
+      padding: 10px 20px;
+      border: 2px solid #E2725B;
+      background: white;
+      color: #E2725B;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .filter-btn:hover {
+      background: #E2725B;
+      color: white;
+    }
+
+    .filter-btn.active {
+      background: #E2725B;
+      color: white;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .orders-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      .controls-buttons {
+        width: 100%;
+      }
+
+      .refresh-btn, .logout-btn {
+        flex: 1;
+      }
+
+      .stats-section {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+
+      .status-section {
+        flex-direction: column;
+      }
+
+      .filter-section {
+        flex-direction: column;
+      }
+
+      .filter-btn {
+        width: 100%;
+      }
+
+      .tab-navigation {
+        flex-direction: column;
+      }
+
+      .menu-items-table {
+        font-size: 0.85rem;
+      }
+
+      .menu-items-table th,
+      .menu-items-table td {
+        padding: 10px 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>☕ Barista Dashboard</h1>
+      <p>Cafe Terrain - Beverage Management System</p>
+    </div>
+
+    <!-- Authentication Section -->
+    <div class="auth-section" id="authSection">
+      <h2>Barista Login</h2>
+      <div class="input-group">
+        <label for="emailInput">Email Address</label>
+        <input type="email" id="emailInput" placeholder="Enter your registered email" required>
+      </div>
+      <button class="login-btn" onclick="login()">
+        <span id="loginBtnText">Login</span>
+      </button>
+      <div id="authError"></div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div class="dashboard-container" id="dashboardContainer">
+      <!-- Controls -->
+      <div class="controls">
+        <div class="user-info">
+          Logged in as: <span class="user-email" id="userEmail"></span>
+        </div>
+        <div class="controls-buttons">
+          <button class="refresh-btn" onclick="refreshCurrentTab()">
+            🔄 Refresh
+          </button>
+          <button class="logout-btn" onclick="logout()">
+            Logout
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="tab-navigation">
+        <button class="tab-btn active" onclick="switchTab('orders', this)">
+          📋 KOT Orders
+        </button>
+        <button class="tab-btn" onclick="switchTab('menu', this)">
+          ☕ Manage Menu
+        </button>
+      </div>
+
+      <!-- Orders Tab -->
+      <div id="ordersTab" class="tab-content active">
+        <div class="stats-section" id="statsSection">
+          <div class="stat-card">
+            <div class="stat-number stat-pending" id="statPending">0</div>
+            <div class="stat-label">Pending</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number stat-preparing" id="statPreparing">0</div>
+            <div class="stat-label">Preparing</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number stat-ready" id="statReady">0</div>
+            <div class="stat-label">Ready</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" style="color: #667eea;" id="statTotal">0</div>
+            <div class="stat-label">Total Orders</div>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <button class="filter-btn active" onclick="filterOrders('all', this)">All Orders</button>
+          <button class="filter-btn" onclick="filterOrders('Pending', this)">⏳ Pending</button>
+          <button class="filter-btn" onclick="filterOrders('Preparing', this)">🔥 Preparing</button>
+          <button class="filter-btn" onclick="filterOrders('Ready', this)">✅ Ready</button>
+        </div>
+
+        <div id="ordersGrid"></div>
+      </div>
+
+      <!-- Menu Management Tab -->
+      <div id="menuTab" class="tab-content">
+        <div class="menu-items-container">
+          <h2 style="margin-bottom: 20px; color: #667eea;">☕ Beverage Menu Items</h2>
+          <div id="menuItemsGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ⚠️ REPLACE WITH YOUR ACTUAL WEB APP URL
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw9nZs0MeIwlCb-FIR8AqjvPOG-s5THl9cfQ82Y8brh21BLeqFkKjUge2oLZKTZtWX0/exec';
+
+    let userEmail = localStorage.getItem('baristaEmail');
+    let autoRefreshInterval;
+    let allOrders = [];
+    let allMenuItems = [];
+    let currentFilter = 'all';
+    let currentTab = 'orders';
+
+    // Initialize on page load
+    if (userEmail) {
+      showDashboard();
+      loadOrders();
+      startAutoRefresh();
+    }
+
+    // ===========================
+    // AUTHENTICATION
+    // ===========================
+    async function login() {
+      const email = document.getElementById('emailInput').value.trim();
+      const loginBtn = document.querySelector('.login-btn');
+      const loginBtnText = document.getElementById('loginBtnText');
+
+      if (!email) {
+        showError('Please enter your email address');
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtnText.textContent = 'Verifying...';
+
+      try {
+        const response = await fetch(`${SCRIPT_URL}?action=checkAuth&email=${encodeURIComponent(email)}&role=barista`);
+        const result = await response.json();
+
+        if (result.success && result.data.authorized) {
+          localStorage.setItem('baristaEmail', email);
+          userEmail = email;
+          showDashboard();
+          loadOrders();
+          startAutoRefresh();
+        } else {
+          showError('❌ Access Denied. You are not authorized as a Barista.');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        showError('❌ Connection error. Please check your internet and try again.');
+      } finally {
+        loginBtn.disabled = false;
+        loginBtnText.textContent = 'Login';
+      }
+    }
+
+    function showError(message) {
+      const authError = document.getElementById('authError');
+      authError.innerHTML = `<div class="error-message">${message}</div>`;
+      setTimeout(() => {
+        authError.innerHTML = '';
+      }, 5000);
+    }
+
+    function showDashboard() {
+      document.getElementById('authSection').style.display = 'none';
+      document.getElementById('dashboardContainer').classList.add('active');
+      document.getElementById('userEmail').textContent = userEmail;
+    }
+
+    function logout() {
+      if (confirm('Are you sure you want to logout?')) {
+        localStorage.removeItem('baristaEmail');
+        stopAutoRefresh();
+        location.reload();
+      }
+    }
+
+    // ===========================
+    // TAB MANAGEMENT
+    // ===========================
+    function switchTab(tab, button) {
+      currentTab = tab;
+      
+      // Update active tab button
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Update active tab content
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      if (tab === 'orders') {
+        document.getElementById('ordersTab').classList.add('active');
+        loadOrders();
+      } else if (tab === 'menu') {
+        document.getElementById('menuTab').classList.add('active');
+        loadMenuItems();
+      }
+    }
+
+    function refreshCurrentTab() {
+      if (currentTab === 'orders') {
+        loadOrders();
+      } else if (currentTab === 'menu') {
+        loadMenuItems();
+      }
+    }
+
+    // ===========================
+    // KOT ORDERS
+    // ===========================
+    async function loadOrders() {
+      const ordersGrid = document.getElementById('ordersGrid');
+      ordersGrid.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading beverage orders...</p></div>';
+
+      try {
+        const response = await fetch(`${SCRIPT_URL}?action=getBaristaOrders`);
+        const result = await response.json();
+
+        console.log('Barista Orders:', result);
+
+        if (result.success) {
+          // ✅ FIX: Ensure data is always an array
+          allOrders = Array.isArray(result.data) ? result.data : [];
+          
+          if (allOrders.length === 0) {
+            ordersGrid.innerHTML = `
+              <div class="empty-state">
+                <h3>☕ No Beverage Orders</h3>
+                <p>All caught up! No pending beverage orders at the moment.</p>
+              </div>
+            `;
+            updateStats();
+            return;
+          }
+
+          // Sort orders: Pending → Preparing → Ready
+          allOrders.sort((a, b) => {
+            const statusOrder = { 'Pending': 1, 'Preparing': 2, 'Ready': 3 };
+            return (statusOrder[a.status] || 999) - (statusOrder[b.status] || 999);
+          });
+
+          updateStats();
+          filterOrders(currentFilter);
+        } else {
+          ordersGrid.innerHTML = `
+            <div class="empty-state">
+              <h3>⚠️ Error Loading Orders</h3>
+              <p>${result.message || 'Failed to load orders'}</p>
+            </div>
+          `;
+        }
+      } catch (error) {
+        console.error('Load orders error:', error);
+        ordersGrid.innerHTML = `
+          <div class="empty-state">
+            <h3>❌ Connection Error</h3>
+            <p>Unable to load orders. Please check your connection and try again.</p>
+          </div>
+        `;
+      }
+    }
+
+    function updateStats() {
+      const pending = allOrders.filter(o => o.status === 'Pending').length;
+      const preparing = allOrders.filter(o => o.status === 'Preparing').length;
+      const ready = allOrders.filter(o => o.status === 'Ready').length;
+      const total = allOrders.length;
+
+      document.getElementById('statPending').textContent = pending;
+      document.getElementById('statPreparing').textContent = preparing;
+      document.getElementById('statReady').textContent = ready;
+      document.getElementById('statTotal').textContent = total;
+    }
+
+    function filterOrders(status, clickedButton) {
+      currentFilter = status;
+      
+      // Update active filter button
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      if (clickedButton) {
+        clickedButton.classList.add('active');
+      } else {
+        // If called programmatically, find and activate correct button
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(btn => {
+          const btnText = btn.textContent.toLowerCase();
+          if (status === 'all' && btnText.includes('all')) {
+            btn.classList.add('active');
+          } else if (btnText.includes(status.toLowerCase())) {
+            btn.classList.add('active');
+          }
+        });
+      }
+
+      // Filter orders
+      let filteredOrders = allOrders;
+      if (status !== 'all') {
+        filteredOrders = allOrders.filter(order => order.status === status);
+      }
+
+      const ordersGrid = document.getElementById('ordersGrid');
+      
+      if (filteredOrders.length === 0) {
+        ordersGrid.innerHTML = `
+          <div class="empty-state">
+            <h3>No ${status === 'all' ? '' : status} Orders</h3>
+            <p>No orders found with this status.</p>
+          </div>
+        `;
+        return;
+      }
+
+      ordersGrid.innerHTML = filteredOrders.map(order => createOrderCard(order)).join('');
+    }
+
+    function createOrderCard(order) {
+      const status = order.status || 'Pending';
+      const timestamp = new Date(order.timestamp).toLocaleString();
+      const notes = order.notes || '';
+
+      return `
+        <div class="order-card">
+          <div class="order-header">
+            <div class="order-id">🍹 ${order.kotId}</div>
+            <div class="table-number">Table ${order.table}</div>
+          </div>
+
+          <div class="current-status ${status.toLowerCase()}">
+            ${status === 'Pending' ? '⏳' : status === 'Preparing' ? '🔥' : '✅'} ${status}
+          </div>
+
+          <div class="order-info">
+            <div class="info-row">
+              <span class="info-label">Order ID:</span>
+              <span class="info-value">${order.orderId}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Time:</span>
+              <span class="info-value">${timestamp}</span>
+            </div>
+          </div>
+
+          <div class="items-section">
+            <h4>☕ Beverage Items:</h4>
+            <div class="items-list">${order.items}</div>
+          </div>
+
+          ${notes ? `
+            <div class="notes-section">
+              <h4>📝 Special Instructions:</h4>
+              <div class="notes-text">${notes}</div>
+            </div>
+          ` : ''}
+
+          <div class="status-section">
+            <button class="status-btn status-pending" 
+                    onclick="updateOrderStatus('${order.kotId}', 'Pending', ${order.row})"
+                    ${status === 'Pending' ? 'disabled' : ''}>
+              ⏳ Pending
+            </button>
+            <button class="status-btn status-preparing" 
+                    onclick="updateOrderStatus('${order.kotId}', 'Preparing', ${order.row})"
+                    ${status === 'Preparing' ? 'disabled' : ''}>
+              🔥 Preparing
+            </button>
+            <button class="status-btn status-ready" 
+                    onclick="updateOrderStatus('${order.kotId}', 'Ready', ${order.row})"
+                    ${status === 'Ready' ? 'disabled' : ''}>
+              ✅ Ready
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    async function updateOrderStatus(kotId, newStatus, row) {
+      if (!confirm(`Update order ${kotId} to "${newStatus}"?`)) {
+        return;
+      }
+
+      try {
+        const payload = {
+          action: 'updateOrderStatus',
+          department: 'Barista',
+          kotId: kotId,
+          status: newStatus,
+          row: row
+        };
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert(`✅ Order ${kotId} updated to ${newStatus}`);
+          loadOrders();
+        } else {
+          alert(`❌ Error: ${result.message}`);
+        }
+      } catch (error) {
+        console.error('Update status error:', error);
+        alert('❌ Failed to update status. Please try again.');
+      }
+    }
+
+    // ===========================
+    // MENU MANAGEMENT
+    // ===========================
+    async function loadMenuItems() {
+      const menuGrid = document.getElementById('menuItemsGrid');
+      menuGrid.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading menu items...</p></div>';
+
+      try {
+        const response = await fetch(`${SCRIPT_URL}?action=getAll`);
+        const result = await response.json();
+
+        console.log('Menu Items Response:', result);
+
+        if (result.success) {
+          // ✅ FIX: Ensure data is always an array and filter for Beverage category
+          const allItems = Array.isArray(result.data) ? result.data : [];
+          
+          // ✅ Filter for beverage items only
+          allMenuItems = allItems.filter(item => {
+            const category = (item.category || '').toLowerCase();
+            return category.includes('beverage') || 
+                   category.includes('coffee') || 
+                   category.includes('tea') || 
+                   category.includes('drink') ||
+                   category.includes('juice') ||
+                   category.includes('mocktail');
+          });
+          
+          if (allMenuItems.length === 0) {
+            menuGrid.innerHTML = `
+              <div class="empty-state">
+                <h3>No Beverage Items</h3>
+                <p>No beverage items found in the menu.</p>
+              </div>
+            `;
+            return;
+          }
+
+          renderMenuItems();
+        } else {
+          menuGrid.innerHTML = `
+            <div class="empty-state">
+              <h3>⚠️ Error Loading Menu</h3>
+              <p>${result.message || 'Failed to load menu items'}</p>
+            </div>
+          `;
+        }
+      } catch (error) {
+        console.error('Load menu error:', error);
+        menuGrid.innerHTML = `
+          <div class="empty-state">
+            <h3>❌ Connection Error</h3>
+            <p>Unable to load menu items. Please try again.</p>
+          </div>
+        `;
+      }
+    }
+
+    function renderMenuItems() {
+      const menuGrid = document.getElementById('menuItemsGrid');
+      
+      // ✅ FIX: Double-check it's an array
+      if (!Array.isArray(allMenuItems) || allMenuItems.length === 0) {
+        menuGrid.innerHTML = `
+          <div class="empty-state">
+            <h3>No Beverage Items</h3>
+            <p>No beverage items found in the menu.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      let html = `
+        <table class="menu-items-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      allMenuItems.forEach(item => {
+        const isAvailable = item.status === '✅';
+        html += `
+          <tr>
+            <td>${item.category || 'N/A'}</td>
+            <td>${item.product || 'N/A'}</td>
+            <td>₹${item.price || 0}</td>
+            <td>
+              <span style="font-size: 1.2rem;">${item.status || '✅'}</span>
+            </td>
+            <td>
+              <button class="availability-toggle ${isAvailable ? 'available' : 'unavailable'}"
+                      onclick="toggleAvailability(${item.row}, '${isAvailable ? '❌' : '✅'}')">
+                ${isAvailable ? '✅ Available' : '❌ Unavailable'}
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      html += `
+          </tbody>
+        </table>
+      `;
+
+      menuGrid.innerHTML = html;
+    }
+
+    async function toggleAvailability(row, newStatus) {
+      if (!confirm(`Change item availability to ${newStatus === '✅' ? 'Available' : 'Unavailable'}?`)) {
+        return;
+      }
+
+      try {
+        const payload = {
+          action: 'toggleStatus',
+          userEmail: userEmail,
+          row: row,
+          status: newStatus
+        };
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert(`✅ Status updated successfully`);
+          loadMenuItems();
+        } else {
+          alert(`❌ Error: ${result.message}`);
+        }
+      } catch (error) {
+        console.error('Toggle availability error:', error);
+        alert('❌ Failed to update status. Please try again.');
+      }
+    }
+
+    // ===========================
+    // AUTO-REFRESH
+    // ===========================
+    function startAutoRefresh() {
+      autoRefreshInterval = setInterval(() => {
+        if (currentTab === 'orders') {
+          console.log('Auto-refreshing orders...');
+          loadOrders();
+        }
+      }, 30000); // Refresh every 30 seconds
+    }
+
+    function stopAutoRefresh() {
+      if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+      }
+    }
+
+    // Enter key to submit login
+    document.getElementById('emailInput')?.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        login();
+      }
+    });
+  </script>
+</body>
+</html>

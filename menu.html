@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cafe Terrain - Menu</title>
+  <title>Cafe Terrain - Menu & Ordering</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
@@ -34,11 +34,6 @@
       }
     }
 
-    @keyframes sparkleRotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
     body {
       font-family: 'Montserrat', sans-serif;
       background: #f5f3ef;
@@ -55,8 +50,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: 
-        linear-gradient(180deg, rgba(212, 175, 55, 0.03) 0%, transparent 100%);
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.03) 0%, transparent 100%);
       pointer-events: none;
       z-index: 0;
     }
@@ -67,8 +61,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: 
-        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(212, 175, 55, 0.02) 2px, rgba(212, 175, 55, 0.02) 4px);
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(212, 175, 55, 0.02) 2px, rgba(212, 175, 55, 0.02) 4px);
       pointer-events: none;
       z-index: 0;
     }
@@ -81,6 +74,7 @@
       z-index: 1;
     }
 
+    /* HEADER */
     .header {
       text-align: center;
       padding: 80px 20px 60px;
@@ -107,8 +101,13 @@
       transform: rotate(45deg);
     }
 
-    .ornament-top::before { left: -12px; }
-    .ornament-top::after { right: -12px; }
+    .ornament-top::before {
+      left: -12px;
+    }
+
+    .ornament-top::after {
+      right: -12px;
+    }
 
     .logo-wrapper {
       margin-bottom: 50px;
@@ -127,9 +126,7 @@
       padding: 6px;
       position: relative;
       border: 4px solid #d4af37;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.12),
-        inset 0 2px 8px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), inset 0 2px 8px rgba(255, 255, 255, 0.8);
       transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -154,9 +151,7 @@
 
     .logo:hover {
       transform: scale(1.05);
-      box-shadow: 
-        0 12px 48px rgba(0, 0, 0, 0.15),
-        inset 0 2px 8px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), inset 0 2px 8px rgba(255, 255, 255, 0.8);
     }
 
     .logo img {
@@ -216,6 +211,88 @@
       padding: 0 12px;
     }
 
+    /* TABLE SELECTION */
+    .table-selection {
+      background: #ffffff;
+      border: 2px solid #d4af37;
+      padding: 40px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      display: none;
+    }
+
+    .table-selection.active {
+      display: block;
+      animation: fadeInLux 0.8s ease;
+    }
+
+    .table-selection h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: #2c2c2c;
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .table-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 15px;
+    }
+
+    .table-btn {
+      padding: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #fafaf8 100%);
+      color: #2c2c2c;
+      border: 2px solid #d4af37;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .table-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #d4af37;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+
+    .table-btn:hover::after,
+    .table-btn.selected::after {
+      transform: scaleX(1);
+    }
+
+    .table-btn:hover,
+    .table-btn.selected {
+      color: #ffffff;
+      border-color: #d4af37;
+      box-shadow: 0 6px 24px rgba(212, 175, 55, 0.3);
+    }
+
+    .selected-table-info {
+      background: linear-gradient(135deg, #d4af37 0%, #8b7355 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      border: 2px solid #8b7355;
+      letter-spacing: 2px;
+      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+    }
+
+    /* LOADING */
     .loading {
       text-align: center;
       padding: 100px 20px;
@@ -243,6 +320,7 @@
       text-transform: uppercase;
     }
 
+    /* MENU */
     .menu-grid {
       display: grid;
       gap: 40px;
@@ -447,6 +525,249 @@
       border-color: #8b7355;
     }
 
+    /* ADD TO CART BUTTON */
+    .add-to-cart-btn {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #ffffff 0%, #fafaf8 100%);
+      color: #2c2c2c;
+      border: 2px solid #d4af37;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .add-to-cart-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #d4af37;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+
+    .add-to-cart-btn:hover::after {
+      transform: scaleX(1);
+    }
+
+    .add-to-cart-btn:hover {
+      color: #ffffff;
+      box-shadow: 0 6px 24px rgba(212, 175, 55, 0.3);
+    }
+
+    .add-to-cart-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: #e0e0e0;
+      border-color: #999;
+    }
+
+    .add-to-cart-btn:disabled::after {
+      display: none;
+    }
+
+    /* CART FLOATING BUTTON */
+    .cart-floating {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, #d4af37 0%, #8b7355 100%);
+      color: white;
+      padding: 18px 30px;
+      border-radius: 50px;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.2em;
+      z-index: 1000;
+      transition: all 0.3s;
+      display: none;
+      border: 2px solid #d4af37;
+    }
+
+    .cart-floating:hover {
+      transform: scale(1.08);
+      box-shadow: 0 15px 40px rgba(212, 175, 55, 0.7);
+    }
+
+    .cart-badge {
+      background: white;
+      color: #d4af37;
+      border-radius: 50%;
+      padding: 6px 12px;
+      margin-left: 12px;
+      font-size: 0.95em;
+      font-weight: 700;
+    }
+
+    /* CART MODAL */
+    .cart-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.75);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cart-modal.active {
+      display: flex;
+    }
+
+    .cart-content {
+      background: white;
+      padding: 40px;
+      border-radius: 0;
+      max-width: 650px;
+      width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      border: 3px solid #d4af37;
+    }
+
+    .cart-content h2 {
+      font-family: 'Playfair Display', serif;
+      color: #2c2c2c;
+      font-size: 2em;
+      margin-bottom: 25px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: #fafaf8;
+      margin-bottom: 15px;
+      border: 2px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .cart-item-details h4 {
+      font-family: 'Playfair Display', serif;
+      color: #2c2c2c;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .cart-item-details .price {
+      color: #d4af37;
+      font-weight: 700;
+      font-size: 1.1em;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .qty-btn {
+      background: linear-gradient(135deg, #d4af37 0%, #8b7355 100%);
+      color: white;
+      border: none;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.1em;
+      transition: all 0.3s;
+    }
+
+    .qty-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    }
+
+    .cart-total {
+      margin-top: 25px;
+      padding-top: 25px;
+      border-top: 3px solid #d4af37;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6em;
+      font-weight: 700;
+      text-align: right;
+      color: #2c2c2c;
+    }
+
+    .order-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #d4af37 0%, #8b7355 100%);
+      color: white;
+      border: 2px solid #8b7355;
+      cursor: pointer;
+      font-size: 1.3em;
+      font-weight: 600;
+      margin-top: 25px;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .order-btn:hover:not(:disabled) {
+      transform: scale(1.02);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
+    }
+
+    .order-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+      border-color: #999;
+    }
+
+    .close-cart {
+      background: #8b7355;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      cursor: pointer;
+      float: right;
+      margin-bottom: 20px;
+      font-weight: 600;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .close-cart:hover {
+      background: #6b5945;
+      transform: scale(1.05);
+    }
+
+    .notes-input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #d4af37;
+      margin-top: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1em;
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .notes-input:focus {
+      outline: none;
+      border-color: #8b7355;
+    }
+
     .empty-message {
       text-align: center;
       padding: 80px 20px;
@@ -456,6 +777,7 @@
       letter-spacing: 1px;
     }
 
+    /* BACK BUTTON */
     .back-btn {
       display: inline-flex;
       align-items: center;
@@ -499,6 +821,7 @@
       box-shadow: 0 6px 24px rgba(212, 175, 55, 0.3);
     }
 
+    /* FOOTER */
     .footer {
       text-align: center;
       padding: 80px 20px 40px;
@@ -537,130 +860,7 @@
       font-size: 0.85rem;
     }
 
-    .error-container {
-      background: linear-gradient(135deg, rgba(139, 115, 85, 0.05), rgba(212, 175, 55, 0.03));
-      border: 2px solid rgba(212, 175, 55, 0.4);
-      padding: 70px 45px;
-      text-align: center;
-      margin: 70px 0;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .error-icon {
-      font-size: 4rem;
-      margin-bottom: 20px;
-      animation: gentleFloat 3s ease-in-out infinite;
-      color: #8b7355;
-    }
-
-    .error-message {
-      color: #2c2c2c;
-      font-size: 1.1rem;
-      margin-bottom: 30px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-    }
-
-    .retry-btn {
-      padding: 16px 40px;
-      background: #ffffff;
-      color: #2c2c2c;
-      border: 2px solid #d4af37;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: all 0.4s ease;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .retry-btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: #d4af37;
-      transform: scaleX(0);
-      transition: transform 0.4s ease;
-      z-index: -1;
-    }
-
-    .retry-btn:hover::after {
-      transform: scaleX(1);
-    }
-
-    .retry-btn:hover {
-      color: #ffffff;
-      box-shadow: 0 6px 24px rgba(212, 175, 55, 0.25);
-    }
-/* Google Review Section */
-    .review-section {
-      background: white;
-      border-radius: 12px;
-      padding: 30px 20px;
-      margin-top: 30px;
-      margin-bottom: 30px;
-      box-shadow: var(--shadow);
-      text-align: center;
-      border: 2px solid var(--border-color);
-    }
-
-    .review-title {
-      font-size: 1.5rem;
-      color: var(--primary-color);
-      margin-bottom: 10px;
-      font-family: 'Georgia', serif;
-      font-weight: 700;
-    }
-
-    .review-subtitle {
-      color: #8D6E63;
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-    }
-
-    .qr-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .qr-code-box {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      border: 3px solid var(--terracotta);
-      box-shadow: 0 4px 12px rgba(226, 114, 91, 0.2);
-      display: inline-block;
-    }
-
-    .qr-code-img {
-      width: 180px;
-      height: 180px;
-      display: block;
-    }
-
-    .review-text {
-      font-size: 1rem;
-      color: var(--text-color);
-      font-weight: 600;
-      margin-top: 10px;
-    }
-
-    .review-instruction {
-      font-size: 0.9rem;
-      color: #8D6E63;
-      margin-top: 8px;
-    }
-
-    .stars {
-      font-size: 1.8rem;
-      color: #FFD700;
-      letter-spacing: 3px;
-      margin: 10px 0;
-    }
+    /* RESPONSIVE */
     @media (max-width: 768px) {
       .container {
         padding: 40px 20px;
@@ -712,6 +912,10 @@
         font-size: 0.85rem;
         margin: 10px 5px;
       }
+
+      .table-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      }
     }
   </style>
 </head>
@@ -724,6 +928,7 @@
       
       <div class="logo-wrapper">
         <div class="logo">
+          <!-- Replace with your logo -->
           <img src="assets/IMG-20251104-WA0038.jpg" alt="Cafe Terrain">
         </div>
       </div>
@@ -733,21 +938,18 @@
       <p>Fine Dining Experience</p>
     </header>
 
-    <!-- Sort Buttons -->
-    <div style="text-align: center; margin-bottom: 30px;">
-      <button onclick="sortMenu('asc')" class="back-btn" style="margin: 10px;">
-        <span>↑</span>
-        <span>Price: Low to High</span>
-      </button>
-      <button onclick="sortMenu('desc')" class="back-btn" style="margin: 10px;">
-        <span>↓</span>
-        <span>Price: High to Low</span>
-      </button>
+    <!-- Table Selection -->
+    <div class="table-selection" id="tableSelection">
+      <h2>Select Your Table</h2>
+      <div class="table-grid" id="tableGrid"></div>
     </div>
+
+    <!-- Selected Table Info -->
+    <div class="selected-table-info" id="selectedTableInfo" style="display: none;"></div>
 
     <div class="loading" id="loading">
       <div class="spinner"></div>
-      <p>Preparing Menu</p>
+      <p>Preparing Menu...</p>
     </div>
 
     <div class="menu-grid" id="menuContainer"></div>
@@ -758,28 +960,32 @@
         <span>Return Home</span>
       </a>
     </div>
-<div class="review-section">
-      <h2 class="review-title">Love Our Food? Share Your Experience!</h2>
-      <p class="review-subtitle">Scan the QR code to leave us a Google review</p>
-      
-      <div class="qr-container">
-        <div class="stars">⭐⭐⭐⭐⭐</div>
-        <div class="qr-code-box">
-          <img src="assets/brown_qr.png" 
-               alt="Google Review QR Code" 
-               class="qr-code-img">
-        </div>
-        <p class="review-text">Scan & Review</p>
-        <p class="review-instruction">Open your camera app and point it at the QR code</p>
-      </div>
-    </div>
+
     <footer class="footer">
       <strong>Cafe Terrain</strong>
       <p>© 2025 All Rights Reserved</p>
     </footer>
   </div>
 
+  <!-- Cart Floating Button -->
+  <div class="cart-floating" id="cartButton">
+    🛒 Cart <span class="cart-badge" id="cartCount">0</span>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+      <button class="close-cart" onclick="closeCart()">✕ Close</button>
+      <h2 style="clear: both; padding-top: 10px;">Your Order</h2>
+      <div id="cartItems"></div>
+      <textarea class="notes-input" id="orderNotes" placeholder="Add special instructions (e.g., extra spicy, no onions...)"></textarea>
+      <div class="cart-total" id="cartTotal">Total: ₹0</div>
+      <button class="order-btn" id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
+    </div>
+  </div>
+
   <script>
+    // ⚠️ REPLACE WITH YOUR ACTUAL WEB APP URL
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw9nZs0MeIwlCb-FIR8AqjvPOG-s5THl9cfQ82Y8brh21BLeqFkKjUge2oLZKTZtWX0/exec';
 
     const categoryIcons = {
@@ -789,14 +995,88 @@
       'Continental': '🍽️',
       'Dessert': '🍰',
       'Beverages': '🥤',
-      'Snacks': '🍿'
+      'Snacks': '🍿',
+      'Tea': '🍵',
+      'Mocktails': '🍹'
     };
 
-    // Store loaded menu data globally for sorting
     let currentMenuData = null;
+    let selectedTable = null;
+    let cart = [];
+
+    // Fetch table numbers from Settings sheet
+    async function loadTableNumbers() {
+      try {
+        const response = await fetch(`${SCRIPT_URL}?action=getTableNumbers`);
+        const result = await response.json();
+
+        if (result.success && result.data && result.data.length > 0) {
+          generateTablesFromData(result.data);
+        } else {
+          // Fallback to default tables if no data
+          generateDefaultTables();
+        }
+      } catch (error) {
+        console.error('Error loading table numbers:', error);
+        // Fallback to default tables
+        generateDefaultTables();
+      }
+    }
+
+    // Generate table buttons from Settings data
+    function generateTablesFromData(tableNumbers) {
+      const tableGrid = document.getElementById('tableGrid');
+      tableGrid.innerHTML = '';
+      
+      tableNumbers.forEach(function(tableNum) {
+        const btn = document.createElement('button');
+        btn.className = 'table-btn';
+        btn.textContent = `Table ${tableNum}`;
+        btn.onclick = function(event) {
+          selectTable(tableNum, event.target);
+        };
+        tableGrid.appendChild(btn);
+      });
+    }
+
+    // Fallback: Generate default tables 1-20
+    function generateDefaultTables() {
+      const tableGrid = document.getElementById('tableGrid');
+      tableGrid.innerHTML = '';
+      
+      for (let i = 1; i <= 20; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'table-btn';
+        btn.textContent = `Table ${i}`;
+        btn.onclick = function(event) {
+          selectTable(i, event.target);
+        };
+        tableGrid.appendChild(btn);
+      }
+    }
+
+    function selectTable(tableNum, button) {
+      selectedTable = tableNum;
+      
+      document.querySelectorAll('.table-btn').forEach(function(btn) {
+        btn.classList.remove('selected');
+      });
+      
+      button.classList.add('selected');
+      
+      document.getElementById('selectedTableInfo').textContent = `Table ${tableNum} Selected`;
+      document.getElementById('selectedTableInfo').style.display = 'block';
+      document.getElementById('cartButton').style.display = 'block';
+    }
 
     async function loadMenu() {
       try {
+        // Show table selection first
+        document.getElementById('tableSelection').classList.add('active');
+        
+        // Load table numbers from Settings sheet
+        await loadTableNumbers();
+        
         const response = await fetch(SCRIPT_URL);
         const result = await response.json();
 
@@ -819,7 +1099,7 @@
       container.innerHTML = '';
 
       const categories = Object.keys(menuData);
-
+      
       if (categories.length === 0) {
         container.innerHTML = '<div class="empty-message">No menu items available at the moment.</div>';
         return;
@@ -827,82 +1107,202 @@
 
       categories.forEach((category, index) => {
         const categoryData = menuData[category];
-        const items = categoryData.items || [];
+        const items = categoryData.items;
 
         if (items.length === 0) return;
 
         const icon = categoryIcons[category] || '🍴';
-
+        
         const section = document.createElement('div');
         section.className = 'category-section';
         section.style.animationDelay = `${index * 0.15}s`;
-
+        
         section.innerHTML = `
           <div class="category-header">
             <span class="category-icon">${icon}</span>
             <span class="category-title">${category}</span>
           </div>
           <div class="menu-items">
-            ${items.map(item => `
-              <div class="menu-item">
-                <div class="item-info">
-                  <div class="item-name">${item.name}</div>
-                  ${item.description ? `<div class="item-description">${item.description}</div>` : ''}
-                  <span class="status-badge ${item.status === '✅' ? 'status-available' : 'status-unavailable'}">
-                    <span>◆</span>
-                    <span>${item.status === '✅' ? 'Available' : 'Unavailable'}</span>
-                  </span>
+            ${items.map(item => {
+              const isAvailable = item.status === '✅';
+              return `
+                <div class="menu-item">
+                  <div class="item-info">
+                    <div class="item-name">${item.name}</div>
+                    ${item.description ? `<div class="item-description">${item.description}</div>` : ''}
+                    <span class="status-badge ${isAvailable ? 'status-available' : 'status-unavailable'}">
+                      <span>●</span>
+                      <span>${isAvailable ? 'Available' : 'Unavailable'}</span>
+                    </span>
+                    <button class="add-to-cart-btn" 
+                            onclick='addToCart(${JSON.stringify({name: item.name, price: item.price, category: category})})' 
+                            ${!isAvailable ? 'disabled' : ''}>
+                      Add to Cart
+                    </button>
+                  </div>
+                  <div class="item-price">${item.price}</div>
                 </div>
-                <div class="item-price">₹${item.price}</div>
-              </div>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
         `;
-
+        
         container.appendChild(section);
       });
     }
 
     function showError(message) {
       const container = document.getElementById('menuContainer');
-      container.innerHTML = `
-        <div class="error-container">
-          <div class="error-icon">⚠</div>
-          <div class="error-message">${message}</div>
-          <button onclick="location.reload()" class="retry-btn">
-            Retry
-          </button>
-        </div>
-      `;
+      container.innerHTML = `<div class="empty-message">${message}</div>`;
     }
 
-    // Sort menu by price
-    function sortMenu(order) {
-      if (!currentMenuData) return;
+    function addToCart(item) {
+      if (!selectedTable) {
+        alert('Please select a table first!');
+        return;
+      }
 
-      const sortedData = {};
-
-      Object.keys(currentMenuData).forEach(category => {
-        const items = [...currentMenuData[category].items];
-
-        items.sort((a, b) => {
-          const priceA = parseFloat(a.price);
-          const priceB = parseFloat(b.price);
-
-          if (order === 'asc') {
-            return priceA - priceB;
-          } else {
-            return priceB - priceA;
-          }
-        });
-
-        sortedData[category] = { items: items };
+      const existing = cart.find(function(c) {
+        return c.name === item.name;
       });
 
-      renderMenu(sortedData);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          name: item.name,
+          price: item.price,
+          quantity: 1,
+          category: item.category
+        });
+      }
+
+      updateCart();
     }
 
-    document.addEventListener('DOMContentLoaded', loadMenu);
+    function updateCart() {
+      const cartCount = document.getElementById('cartCount');
+      const totalItems = cart.reduce(function(sum, item) {
+        return sum + item.quantity;
+      }, 0);
+      
+      cartCount.textContent = totalItems;
+
+      const cartItems = document.getElementById('cartItems');
+      cartItems.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p style="text-align:center;color:#999;padding:30px;font-size:1.1em;">Your cart is empty</p>';
+        document.getElementById('placeOrderBtn').disabled = true;
+      } else {
+        document.getElementById('placeOrderBtn').disabled = false;
+        
+        cart.forEach(function(item, index) {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'cart-item';
+          itemDiv.innerHTML = `
+            <div class="cart-item-details">
+              <h4>${item.name}</h4>
+              <div class="price">${item.price} × ${item.quantity}</div>
+            </div>
+            <div class="quantity-controls">
+              <button class="qty-btn" onclick="decreaseQuantity(${index})">-</button>
+              <span style="font-weight:700;font-size:1.1em;">${item.quantity}</span>
+              <button class="qty-btn" onclick="increaseQuantity(${index})">+</button>
+            </div>
+          `;
+          cartItems.appendChild(itemDiv);
+        });
+      }
+
+      const total = cart.reduce(function(sum, item) {
+        return sum + (item.price * item.quantity);
+      }, 0);
+      
+      document.getElementById('cartTotal').textContent = `Total: ₹${total}`;
+    }
+
+    function increaseQuantity(index) {
+      cart[index].quantity += 1;
+      updateCart();
+    }
+
+    function decreaseQuantity(index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+      } else {
+        cart.splice(index, 1);
+      }
+      updateCart();
+    }
+
+    document.getElementById('cartButton').onclick = function() {
+      document.getElementById('cartModal').classList.add('active');
+    };
+
+    function closeCart() {
+      document.getElementById('cartModal').classList.remove('active');
+    }
+
+    async function placeOrder() {
+      if (!selectedTable) {
+        alert('Please select a table first!');
+        return;
+      }
+
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+
+      const total = cart.reduce(function(sum, item) {
+        return sum + (item.price * item.quantity);
+      }, 0);
+
+      const notes = document.getElementById('orderNotes').value;
+
+      const payload = {
+        action: 'submitOrder',
+        tableNumber: selectedTable,
+        items: cart,
+        totalAmount: total,
+        notes: notes
+      };
+
+      const btn = document.getElementById('placeOrderBtn');
+      btn.disabled = true;
+      btn.textContent = 'Placing Order...';
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert(`✅ Order Placed Successfully!\n\nID: ${result.data.orderId}\n\nTable ${selectedTable} order has been sent to the kitchen!`);
+          cart = [];
+          document.getElementById('orderNotes').value = '';
+          updateCart();
+          closeCart();
+        } else {
+          alert(`Error: ${result.message}`);
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Failed to place order. Please try again.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Place Order';
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      loadMenu();
+    });
   </script>
 </body>
 </html>
